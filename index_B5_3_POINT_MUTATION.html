@@ -3,131 +3,376 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>QUẢN LÍ HỌC SINH – B5.3</title>
+<title>QUẢN LÍ HỌC SINH – B5.3.1</title>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 :root{
- --bg:#f5f7fb;--card:#fff;--text:#172033;--muted:#667085;
- --line:#e5e7eb;--blue:#2563eb;--nav:#111827;--nav2:#263247;
- --green:#15803d;--red:#b42318;--okbg:#e8f7ed;--ok:#166534;
- --warnbg:#fff7d6;--warn:#854d0e;--errbg:#ffe8e8;--err:#b42318;
+  --bg:#f5f7fb;
+  --card:#fff;
+  --text:#172033;
+  --muted:#667085;
+  --line:#e5e7eb;
+  --blue:#2563eb;
+  --nav:#111827;
+  --nav2:#263247;
+  --green:#15803d;
+  --red:#b42318;
+  --okbg:#e8f7ed;
+  --ok:#166534;
+  --warnbg:#fff7d6;
+  --warn:#854d0e;
+  --errbg:#ffe8e8;
+  --err:#b42318;
 }
+
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}
+
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+
 button,input,textarea,select{font:inherit}
 button{cursor:pointer}
 .hide{display:none!important}
 
-.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
-.login-card,.card{
- background:#fff;border:1px solid var(--line);border-radius:16px;
- box-shadow:0 3px 14px rgba(16,24,40,.03)
+.login-wrap{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
 }
-.login-card{width:100%;max-width:520px;padding:30px}
+
+.login-card,.card{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:16px;
+  box-shadow:0 3px 14px rgba(16,24,40,.03);
+}
+
+.login-card{
+  width:100%;
+  max-width:520px;
+  padding:30px;
+}
 
 .primary,.danger,.success,.ghost{
- border:0;padding:10px 14px;border-radius:9px;font-weight:700
+  border:0;
+  padding:10px 14px;
+  border-radius:9px;
+  font-weight:700;
 }
+
 .primary{background:var(--blue);color:#fff}
 .success{background:#15803d;color:#fff}
 .danger{background:#b42318;color:#fff}
-.ghost{background:#fff;color:var(--text);border:1px solid var(--line)}
-button:disabled{opacity:.55;cursor:not-allowed}
+
+.ghost{
+  background:#fff;
+  color:var(--text);
+  border:1px solid var(--line);
+}
+
+button:disabled{
+  opacity:.55;
+  cursor:not-allowed;
+}
 
 .top{
- height:68px;background:#fff;border-bottom:1px solid var(--line);
- display:flex;align-items:center;justify-content:space-between;
- padding:0 22px;position:sticky;top:0;z-index:20
+  height:68px;
+  background:#fff;
+  border-bottom:1px solid var(--line);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 22px;
+  position:sticky;
+  top:0;
+  z-index:20;
 }
-.brand{font-weight:800;font-size:19px}
-.sub{font-size:12px;color:var(--muted);margin-top:3px}
-.account{display:flex;gap:10px;align-items:center}
-.mail{font-size:13px;color:var(--muted)}
 
-.layout{display:grid;grid-template-columns:245px 1fr;min-height:calc(100vh - 68px)}
-.side{background:var(--nav);padding:14px 12px}
-.nav{
- display:block;width:100%;border:0;background:transparent;color:#e5e7eb;
- text-align:left;padding:12px 13px;margin:3px 0;border-radius:10px;font-weight:700
+.brand{
+  font-weight:800;
+  font-size:19px;
 }
-.nav:hover,.nav.active{background:var(--nav2);color:#fff}
-.main{padding:22px;min-width:0}
-.card{padding:18px;margin-bottom:16px}
+
+.sub{
+  font-size:12px;
+  color:var(--muted);
+  margin-top:3px;
+}
+
+.account{
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+
+.mail{
+  font-size:13px;
+  color:var(--muted);
+}
+
+.layout{
+  display:grid;
+  grid-template-columns:245px 1fr;
+  min-height:calc(100vh - 68px);
+}
+
+.side{
+  background:var(--nav);
+  padding:14px 12px;
+}
+
+.nav{
+  display:block;
+  width:100%;
+  border:0;
+  background:transparent;
+  color:#e5e7eb;
+  text-align:left;
+  padding:12px 13px;
+  margin:3px 0;
+  border-radius:10px;
+  font-weight:700;
+}
+
+.nav:hover,.nav.active{
+  background:var(--nav2);
+  color:#fff;
+}
+
+.main{
+  padding:22px;
+  min-width:0;
+}
+
+.card{
+  padding:18px;
+  margin-bottom:16px;
+}
 
 .status{
- padding:11px 13px;border-radius:10px;background:var(--warnbg);
- color:var(--warn);margin-bottom:14px
+  padding:11px 13px;
+  border-radius:10px;
+  background:var(--warnbg);
+  color:var(--warn);
+  margin-bottom:14px;
 }
-.status.ok{background:var(--okbg);color:var(--ok)}
-.status.err{background:var(--errbg);color:var(--err)}
 
-.toolbar,.mutation-actions{display:flex;gap:12px;flex-wrap:wrap}
-.field{flex:1;min-width:220px}
+.status.ok{
+  background:var(--okbg);
+  color:var(--ok);
+}
+
+.status.err{
+  background:var(--errbg);
+  color:var(--err);
+}
+
+.toolbar,.mutation-actions{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.field{
+  flex:1;
+  min-width:220px;
+}
+
 .field label{
- display:block;font-size:12px;font-weight:700;color:var(--muted);margin-bottom:6px
+  display:block;
+  font-size:12px;
+  font-weight:700;
+  color:var(--muted);
+  margin-bottom:6px;
 }
+
 select,input,textarea{
- width:100%;padding:10px;border:1px solid var(--line);
- border-radius:9px;background:#fff;color:var(--text)
+  width:100%;
+  padding:10px;
+  border:1px solid var(--line);
+  border-radius:9px;
+  background:#fff;
+  color:var(--text);
 }
-textarea{min-height:84px;resize:vertical}
 
-.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-.metric{border:1px solid var(--line);border-radius:12px;padding:15px}
-.metric small{color:var(--muted);display:block}
-.metric b{display:block;font-size:24px;margin-top:6px}
+textarea{
+  min-height:84px;
+  resize:vertical;
+}
 
-.row{padding:13px 0;border-top:1px solid var(--line)}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px;
+}
+
+.metric{
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:15px;
+}
+
+.metric small{
+  color:var(--muted);
+  display:block;
+}
+
+.metric b{
+  display:block;
+  font-size:24px;
+  margin-top:6px;
+}
+
+.row{
+  padding:13px 0;
+  border-top:1px solid var(--line);
+}
+
 .row:first-child{border-top:0}
-.rowbtn{width:100%;text-align:left;border:0;background:transparent;padding:0;color:inherit}
+
+.rowbtn{
+  width:100%;
+  text-align:left;
+  border:0;
+  background:transparent;
+  padding:0;
+  color:inherit;
+}
+
 .rowbtn:hover .name{color:var(--blue)}
-.name{font-weight:800;font-size:16px}
-.meta{color:var(--muted);font-size:13px;margin-top:4px}
+
+.name{
+  font-weight:800;
+  font-size:16px;
+}
+
+.meta{
+  color:var(--muted);
+  font-size:13px;
+  margin-top:4px;
+}
 
 .badge{
- display:inline-block;padding:5px 9px;background:#eff6ff;color:#1d4ed8;
- border-radius:999px;font-size:12px;font-weight:700
+  display:inline-block;
+  padding:5px 9px;
+  background:#eff6ff;
+  color:#1d4ed8;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:700;
 }
 
-.empty{padding:28px 8px;text-align:center;color:var(--muted)}
+.empty{
+  padding:28px 8px;
+  text-align:center;
+  color:var(--muted);
+}
+
 .back{
- border:0;background:transparent;color:var(--blue);
- padding:0;font-weight:700;margin-bottom:14px
+  border:0;
+  background:transparent;
+  color:var(--blue);
+  padding:0;
+  font-weight:700;
+  margin-bottom:14px;
 }
 
 .tx{
- display:grid;grid-template-columns:95px 1fr auto auto;
- gap:12px;align-items:center;padding:13px 0;border-top:1px solid var(--line)
+  display:grid;
+  grid-template-columns:95px 1fr auto auto;
+  gap:12px;
+  align-items:center;
+  padding:13px 0;
+  border-top:1px solid var(--line);
 }
+
 .tx:first-child{border-top:0}
-.plus{font-weight:800;color:var(--green)}
-.minus{font-weight:800;color:var(--red)}
+
+.plus{
+  font-weight:800;
+  color:var(--green);
+}
+
+.minus{
+  font-weight:800;
+  color:var(--red);
+}
 
 .mutation-box{
- border:1px solid var(--line);border-radius:13px;padding:16px;background:#fafafa
+  border:1px solid var(--line);
+  border-radius:13px;
+  padding:16px;
+  background:#fafafa;
 }
-.delta-box{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+
+.delta-box{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin:12px 0;
+}
+
 .delta{
- border:1px solid var(--line);background:#fff;padding:10px 15px;
- border-radius:9px;font-weight:800
+  border:1px solid var(--line);
+  background:#fff;
+  padding:10px 15px;
+  border-radius:9px;
+  font-weight:800;
 }
+
 .delta.plus-btn{color:var(--green)}
 .delta.minus-btn{color:var(--red)}
-.delta.selected{outline:2px solid var(--blue);border-color:transparent}
 
-.notice{font-size:13px;color:var(--muted);line-height:1.5}
+.delta.selected{
+  outline:2px solid var(--blue);
+  border-color:transparent;
+}
+
+.notice{
+  font-size:13px;
+  color:var(--muted);
+  line-height:1.5;
+}
+
 h2,h3{margin-top:0}
 
 @media(max-width:820px){
- .layout{grid-template-columns:1fr}
- .side{display:flex;overflow:auto;padding:8px;position:sticky;top:68px;z-index:10}
- .nav{width:auto;min-width:max-content;margin:0 3px}
- .main{padding:14px}
- .grid{grid-template-columns:1fr}
- .mail{display:none}
- .tx{grid-template-columns:75px 1fr}
- .tx .badge,.tx .undo-wrap{grid-column:2}
+  .layout{grid-template-columns:1fr}
+
+  .side{
+    display:flex;
+    overflow:auto;
+    padding:8px;
+    position:sticky;
+    top:68px;
+    z-index:10;
+  }
+
+  .nav{
+    width:auto;
+    min-width:max-content;
+    margin:0 3px;
+  }
+
+  .main{padding:14px}
+  .grid{grid-template-columns:1fr}
+  .mail{display:none}
+
+  .tx{
+    grid-template-columns:75px 1fr;
+  }
+
+  .tx .badge,.tx .undo-wrap{
+    grid-column:2;
+  }
 }
 </style>
 </head>
@@ -135,1003 +380,2817 @@ h2,h3{margin-top:0}
 <body>
 
 <section id="loginView" class="login-wrap">
- <div class="login-card">
-  <h1>QUẢN LÍ HỌC SINH</h1>
-  <p class="meta">B5.3 – Point Mutation UI</p>
-  <div id="loginStatus" class="status">Đang kiểm tra đăng nhập…</div>
-  <button id="loginBtn" class="primary hide">Đăng nhập bằng Google</button>
- </div>
+  <div class="login-card">
+    <h1>QUẢN LÍ HỌC SINH</h1>
+    <p class="meta">B5.3.1 – Point Mutation + Navigation State Fix</p>
+
+    <div id="loginStatus" class="status">
+      Đang kiểm tra đăng nhập…
+    </div>
+
+    <button id="loginBtn" class="primary hide">
+      Đăng nhập bằng Google
+    </button>
+  </div>
 </section>
 
 <section id="appView" class="hide">
- <header class="top">
-  <div>
-   <div id="title" class="brand">QUẢN LÍ HỌC SINH</div>
-   <div class="sub">B5.3 · Point Mutation UI</div>
-  </div>
-  <div class="account">
-   <span id="mail" class="mail"></span>
-   <button id="logoutBtn" class="ghost">Đăng xuất</button>
-  </div>
- </header>
 
- <div class="layout">
+<header class="top">
+  <div>
+    <div id="title" class="brand">
+      QUẢN LÍ HỌC SINH
+    </div>
+
+    <div class="sub">
+      B5.3.1 · Point Mutation + Navigation State Fix
+    </div>
+  </div>
+
+  <div class="account">
+    <span id="mail" class="mail"></span>
+    <button id="logoutBtn" class="ghost">
+      Đăng xuất
+    </button>
+  </div>
+</header>
+
+<div class="layout">
+
   <aside id="side" class="side"></aside>
 
   <main class="main">
-   <div id="status" class="status">Đang tải…</div>
 
-   <section class="card">
-    <div class="toolbar">
-     <div class="field">
-      <label>LỚP / NGỮ CẢNH</label>
-      <select id="context"></select>
-     </div>
-
-     <div class="field">
-      <label>HỌC KỲ</label>
-      <select id="semester"></select>
-     </div>
+    <div id="status" class="status">
+      Đang tải…
     </div>
-   </section>
 
-   <div id="content"></div>
+    <section class="card">
+      <div class="toolbar">
+
+        <div class="field">
+          <label>LỚP / NGỮ CẢNH</label>
+          <select id="context"></select>
+        </div>
+
+        <div class="field">
+          <label>HỌC KỲ</label>
+          <select id="semester"></select>
+        </div>
+
+      </div>
+    </section>
+
+    <div id="content"></div>
+
   </main>
- </div>
+
+</div>
 </section>
 
 <script>
-const SUPABASE_URL='https://woqspbwuqfdzkkiyibcm.supabase.co';
-const SUPABASE_KEY='sb_publishable__fH3y7TIDu7vixpRo5DlYQ_sxHKlhZl';
 
-const db=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-const $=id=>document.getElementById(id);
+/* ==========================================================
+   B5.3.1
+   POINT MUTATION + NAVIGATION STATE FIX
+   ========================================================== */
 
-const NAV={
- teacher:[
-  'Tổng quan','Lớp học','Học sinh','Điểm rèn luyện','BXH',
-  'Điểm học tập','EduFlow','Tài khoản HS','Cấu hình'
- ],
- student:[
-  'Trang chủ','Hồ sơ','Điểm','BXH','Chức vụ','Nghề nghiệp',
-  'Học tập','Kết quả','Trao đổi/Thông báo'
- ]
-};
+const SUPABASE_URL =
+  'https://woqspbwuqfdzkkiyibcm.supabase.co';
 
-const A={
- session:null,
- role:null,
- data:null,
- contexts:[],
- semesters:[],
- contextId:null,
- semesterId:null,
- page:null,
- selectedStudent:null,
- selectedDelta:null,
- busy:false
-};
+const SUPABASE_KEY =
+  'sb_publishable__fH3y7TIDu7vixpRo5DlYQ_sxHKlhZl';
 
-const esc=v=>String(v??'').replace(
- /[&<>"']/g,
- c=>({
-  '&':'&amp;',
-  '<':'&lt;',
-  '>':'&gt;',
-  '"':'&quot;',
-  "'":'&#39;'
- })[c]
-);
-
-function setStatus(text,type=''){
- $('status').textContent=text;
- $('status').className='status'+(type?' '+type:'');
-}
-
-function setLoginStatus(text,type=''){
- $('loginStatus').textContent=text;
- $('loginStatus').className='status'+(type?' '+type:'');
-}
-
-async function rpc(name,args={}){
- const {data,error}=await db.rpc(name,args);
- if(error) throw error;
- return data;
-}
-
-function uuid(){
- if(window.crypto?.randomUUID){
-  return crypto.randomUUID();
- }
-
- return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
-  .replace(/[xy]/g,c=>{
-   const r=Math.random()*16|0;
-   const v=c==='x'?r:(r&0x3|0x8);
-   return v.toString(16);
-  });
-}
-
-async function login(){
- setLoginStatus('Đang chuyển tới Google…');
-
- const {error}=await db.auth.signInWithOAuth({
-  provider:'google',
-  options:{
-   redirectTo:location.origin+location.pathname
-  }
- });
-
- if(error){
-  setLoginStatus('Không thể đăng nhập: '+error.message,'err');
- }
-}
-
-async function logout(){
- await db.auth.signOut();
- location.reload();
-}
-
-function studentContexts(d){
- const out=[];
-
- (d.memberships||[]).forEach(m=>{
-  (m.contexts||[]).forEach(c=>{
-   out.push({
-    ...c,
-    membership_id:m.membership_id,
-    class_id:m.class_id,
-    class_name:m.class_name,
-    class_code:m.class_code,
-    school_year:m.school_year
-   });
-  });
- });
-
- return out;
-}
-
-function teacherContexts(d){
- const out=[];
-
- (d.classes||[]).forEach(cl=>{
-  (cl.contexts||[]).forEach(c=>{
-   out.push({
-    ...c,
-    class_id:cl.class_id,
-    class_name:cl.class_name,
-    class_code:cl.class_code,
-    school_year:cl.school_year
-   });
-  });
- });
-
- return out;
-}
-
-function contextLabel(c){
- if(!c) return 'Chưa có ngữ cảnh';
-
- const type=
-  c.context_type==='HOMEROOM'
-   ?'Chủ nhiệm'
-   :'Bộ môn';
-
- return `${c.class_name||'Lớp'} · ${type}${c.subject_name?' · '+c.subject_name:''}`;
-}
-
-function semesterLabel(s){
- return `${s?.semester_code||''}${s?.school_year?' · '+s.school_year:''}`;
-}
-
-function currentContext(){
- return A.contexts.find(
-  x=>String(x.context_id)===String(A.contextId)
- )||null;
-}
-
-function currentSemester(){
- return A.semesters.find(
-  x=>String(x.semester_id)===String(A.semesterId)
- )||null;
-}
-
-async function start(session){
- if(!session){
-  A.session=null;
-
-  $('appView').classList.add('hide');
-  $('loginView').classList.remove('hide');
-  $('loginBtn').classList.remove('hide');
-
-  setLoginStatus('Chưa đăng nhập.');
-  return;
- }
-
- A.session=session;
-
- setLoginStatus('Đã xác thực Google. Đang tải dữ liệu…');
-
- try{
-  const bootstrap=await rpc('v4_bootstrap_lite');
-  const data=bootstrap?.data||{};
-
-  A.data=data;
-  A.role=String(bootstrap?.identity?.role||'').toLowerCase();
-
-  if(!['teacher','student'].includes(A.role)){
-   throw new Error('Tài khoản chưa có vai trò hợp lệ.');
-  }
-
-  A.contexts=
-   A.role==='teacher'
-    ?teacherContexts(data)
-    :studentContexts(data);
-
-  A.semesters=
-   Array.isArray(data.semesters)
-    ?data.semesters
-    :[];
-
-  A.contextId=A.contexts[0]?.context_id??null;
-
-  const active=
-   A.semesters.find(x=>x.is_active)
-   ||A.semesters[0]
-   ||null;
-
-  A.semesterId=active?.semester_id??null;
-  A.page=NAV[A.role][0];
-  A.selectedStudent=null;
-
-  renderShell();
-  await renderPage();
- }
- catch(error){
-  console.error(error);
-
-  $('appView').classList.add('hide');
-  $('loginView').classList.remove('hide');
-
-  setLoginStatus(
-   'Không thể mở ứng dụng: '+error.message,
-   'err'
+const db =
+  supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
   );
- }
-}
 
-function renderShell(){
- $('loginView').classList.add('hide');
- $('appView').classList.remove('hide');
+const $ =
+  id => document.getElementById(id);
 
- $('title').textContent=
-  A.role==='teacher'
-   ?'QUẢN LÍ HỌC SINH'
-   :'CỔNG HỌC SINH';
 
- $('mail').textContent=A.session?.user?.email||'';
+/* ==========================================================
+   NAVIGATION
+   ========================================================== */
 
- $('side').innerHTML=
-  NAV[A.role].map(item=>`
-   <button
-    class="nav ${item===A.page?'active':''}"
-    data-page="${esc(item)}"
-   >${esc(item)}</button>
-  `).join('');
+const NAV = {
 
- $('side').querySelectorAll('.nav').forEach(button=>{
-  button.onclick=async()=>{
-   if(A.busy) return;
+  teacher:[
+    'Tổng quan',
+    'Lớp học',
+    'Học sinh',
+    'Điểm rèn luyện',
+    'BXH',
+    'Điểm học tập',
+    'EduFlow',
+    'Tài khoản HS',
+    'Cấu hình'
+  ],
 
-   A.page=button.dataset.page;
-   A.selectedStudent=null;
-   A.selectedDelta=null;
+  student:[
+    'Trang chủ',
+    'Hồ sơ',
+    'Điểm',
+    'BXH',
+    'Chức vụ',
+    'Nghề nghiệp',
+    'Học tập',
+    'Kết quả',
+    'Trao đổi/Thông báo'
+  ]
 
-   renderShell();
-   await renderPage();
-  };
- });
+};
 
- if(A.contexts.length){
-  $('context').disabled=false;
 
-  $('context').innerHTML=
-   A.contexts.map(c=>`
-    <option
-     value="${esc(c.context_id)}"
-     ${String(c.context_id)===String(A.contextId)?'selected':''}
-    >${esc(contextLabel(c))}</option>
-   `).join('');
- }
- else{
-  $('context').disabled=true;
-  $('context').innerHTML='<option value="">Chưa có ngữ cảnh</option>';
- }
+/* ==========================================================
+   APP STATE
+   ========================================================== */
 
- if(A.semesters.length){
-  $('semester').disabled=false;
+const A = {
 
-  $('semester').innerHTML=
-   A.semesters.map(s=>`
-    <option
-     value="${esc(s.semester_id)}"
-     ${String(s.semester_id)===String(A.semesterId)?'selected':''}
-    >${esc(semesterLabel(s))}</option>
-   `).join('');
- }
- else{
-  $('semester').disabled=true;
-  $('semester').innerHTML='<option value="">Chưa có học kỳ</option>';
- }
+  session:null,
 
- $('context').onchange=async e=>{
-  if(A.busy) return;
+  role:null,
 
-  A.contextId=e.target.value||null;
-  A.selectedStudent=null;
-  A.selectedDelta=null;
+  data:null,
 
-  await renderPage();
- };
+  contexts:[],
 
- $('semester').onchange=async e=>{
-  if(A.busy) return;
+  semesters:[],
 
-  A.semesterId=e.target.value||null;
-  A.selectedStudent=null;
-  A.selectedDelta=null;
+  contextId:null,
 
-  await renderPage();
- };
-}
+  semesterId:null,
 
-async function renderPage(){
- const c=currentContext();
- const s=currentSemester();
+  page:null,
 
- if(!c||!s){
-  $('content').innerHTML=
-   '<section class="card empty">Chưa có lớp/ngữ cảnh hoặc học kỳ khả dụng.</section>';
+  selectedStudent:null,
 
-  setStatus('Bootstrap hoàn tất.','ok');
-  return;
- }
+  selectedDelta:null,
 
- setStatus('Đang tải '+A.page+'…');
+  busy:false,
 
- try{
-  if(A.role==='teacher'){
-   await teacherPage(c,s);
+  booted:false
+
+};
+
+
+/* ==========================================================
+   SESSION STATE KEYS
+   ========================================================== */
+
+const STATE_KEYS = {
+
+  role:'b531_role',
+
+  page:'b531_page',
+
+  context:'b531_context',
+
+  semester:'b531_semester',
+
+  student:'b531_student'
+
+};
+
+
+/* ==========================================================
+   STATE HELPERS
+   ========================================================== */
+
+function saveState(){
+
+  if(A.role){
+    sessionStorage.setItem(
+      STATE_KEYS.role,
+      A.role
+    );
+  }
+
+  if(A.page){
+    sessionStorage.setItem(
+      STATE_KEYS.page,
+      A.page
+    );
+  }
+
+  if(A.contextId !== null){
+    sessionStorage.setItem(
+      STATE_KEYS.context,
+      String(A.contextId)
+    );
+  }
+
+  if(A.semesterId !== null){
+    sessionStorage.setItem(
+      STATE_KEYS.semester,
+      String(A.semesterId)
+    );
+  }
+
+  if(A.selectedStudent){
+    sessionStorage.setItem(
+      STATE_KEYS.student,
+      String(A.selectedStudent)
+    );
   }
   else{
-   await studentPage(c,s);
+    sessionStorage.removeItem(
+      STATE_KEYS.student
+    );
   }
-
-  setStatus(
-   `Đã tải ${A.page} · ${contextLabel(c)} · ${semesterLabel(s)}`,
-   'ok'
-  );
- }
- catch(error){
-  console.error(error);
-
-  $('content').innerHTML=
-   '<section class="card empty">Không thể tải dữ liệu mục này.</section>';
-
-  setStatus(error.message,'err');
- }
 }
 
-async function teacherRoster(c,s){
- const result=await rpc(
-  'v4_teacher_context_students',
-  {
-   p_context_id:c.context_id,
-   p_semester_id:s.semester_id
-  }
- );
 
- return Array.isArray(result)?result:[];
-}
+function restoreState(){
 
-function renderRows(students){
- if(!students.length){
-  return '<div class="empty">Chưa có học sinh.</div>';
- }
-
- return students.map(student=>`
-  <div class="row">
-   <button
-    class="rowbtn"
-    data-membership="${esc(student.membership_id)}"
-   >
-    <div class="name">
-     ${esc(student.full_name||student.student_name||'Học sinh')}
-    </div>
-
-    <div class="meta">
-     ${esc(student.email||'')}
-    </div>
-
-    <div class="meta">
-     ${
-      student.points!==undefined
-       ?esc(student.points)+' điểm'
-       :''
-     }
-     ${
-      student.band!==undefined
-       ?' · Band '+esc(student.band)
-       :''
-     }
-    </div>
-   </button>
-  </div>
- `).join('');
-}
-
-async function teacherPage(c,s){
- if(A.selectedStudent){
-  await teacherStudentDetail(c,s,A.selectedStudent);
-  return;
- }
-
- if(['Tổng quan','Lớp học','Học sinh','Điểm rèn luyện'].includes(A.page)){
-  const students=await teacherRoster(c,s);
-
-  $('content').innerHTML=`
-   <section class="card">
-    <h2>${esc(A.page)}</h2>
-
-    <p class="meta">
-     ${esc(contextLabel(c))} · ${esc(semesterLabel(s))}
-    </p>
-
-    <div class="grid">
-     <div class="metric">
-      <small>Học sinh</small>
-      <b>${students.length}</b>
-     </div>
-
-     <div class="metric">
-      <small>Loại lớp</small>
-      <b style="font-size:17px">
-       ${c.context_type==='HOMEROOM'?'Lớp chủ nhiệm':'Lớp bộ môn'}
-      </b>
-     </div>
-
-     <div class="metric">
-      <small>Học kỳ</small>
-      <b>${esc(s.semester_code)}</b>
-     </div>
-    </div>
-   </section>
-
-   <section class="card">
-    <h3>
-     ${A.page==='Điểm rèn luyện'?'Chọn học sinh để cộng/trừ điểm':'Học sinh trong lớp'}
-    </h3>
-
-    ${renderRows(students)}
-   </section>
-  `;
-
-  $('content')
-   .querySelectorAll('.rowbtn')
-   .forEach(button=>{
-    button.onclick=async()=>{
-     A.selectedStudent=button.dataset.membership;
-     A.selectedDelta=null;
-     await renderPage();
-    };
-   });
-
-  return;
- }
-
- $('content').innerHTML=`
-  <section class="card">
-   <h2>${esc(A.page)}</h2>
-   <div class="empty">
-    Module này chưa phát triển trong B5.3.
-   </div>
-  </section>
- `;
-}
-
-async function teacherStudentDetail(c,s,membershipId){
- const detail=await rpc(
-  'v4_teacher_student_context_detail',
-  {
-   p_membership_id:Number(membershipId),
-   p_context_id:c.context_id,
-   p_semester_id:s.semester_id
-  }
- );
-
- let history=await rpc(
-  'v4_teacher_point_history',
-  {
-   p_membership_id:Number(membershipId),
-   p_context_id:c.context_id,
-   p_semester_id:s.semester_id,
-   p_limit:100
-  }
- );
-
- history=Array.isArray(history)?history:[];
-
- $('content').innerHTML=`
-  <button id="backBtn" class="back">
-   ← Quay lại danh sách học sinh
-  </button>
-
-  <section class="card">
-   <h2>
-    ${esc(detail?.full_name||detail?.student_name||'Học sinh')}
-   </h2>
-
-   <p class="meta">
-    ${esc(detail?.email||'')} ·
-    ${esc(contextLabel(c))} ·
-    ${esc(semesterLabel(s))}
-   </p>
-
-   <div class="grid">
-    <div class="metric">
-     <small>Điểm hiện tại</small>
-     <b>${esc(detail?.points??0)}</b>
-    </div>
-
-    <div class="metric">
-     <small>Band</small>
-     <b>${esc(detail?.band??'—')}</b>
-    </div>
-
-    <div class="metric">
-     <small>Chức vụ</small>
-     <b style="font-size:17px">
-      ${esc(detail?.role?.display_name||'Chưa có')}
-     </b>
-    </div>
-   </div>
-  </section>
-
-  <section class="card">
-   <h3>Nghề nghiệp</h3>
-   <p>${esc(detail?.career?.display_name||'Chưa chọn')}</p>
-  </section>
-
-  ${
-   A.page==='Điểm rèn luyện'
-    ?renderMutationPanel()
-    :''
-  }
-
-  <section class="card">
-   <h3>Lịch sử điểm</h3>
-   ${renderHistory(history,true)}
-  </section>
- `;
-
- $('backBtn').onclick=async()=>{
-  if(A.busy) return;
-
-  A.selectedStudent=null;
-  A.selectedDelta=null;
-
-  await renderPage();
- };
-
- if(A.page==='Điểm rèn luyện'){
-  wireMutationPanel(c,s,membershipId);
- }
-
- wireUndoButtons();
-}
-
-function renderMutationPanel(){
- return `
-  <section class="card">
-   <h3>Cộng / trừ điểm rèn luyện</h3>
-
-   <div class="mutation-box">
-    <div class="notice">
-     Điểm được ghi vào lịch sử giao dịch của đúng học sinh,
-     đúng lớp/ngữ cảnh và đúng học kỳ hiện tại.
-    </div>
-
-    <div class="delta-box">
-     <button class="delta plus-btn" data-delta="1">+1</button>
-     <button class="delta plus-btn" data-delta="2">+2</button>
-     <button class="delta plus-btn" data-delta="3">+3</button>
-     <button class="delta plus-btn" data-delta="4">+4</button>
-     <button class="delta plus-btn" data-delta="5">+5</button>
-
-     <button class="delta minus-btn" data-delta="-1">−1</button>
-     <button class="delta minus-btn" data-delta="-2">−2</button>
-     <button class="delta minus-btn" data-delta="-3">−3</button>
-     <button class="delta minus-btn" data-delta="-4">−4</button>
-     <button class="delta minus-btn" data-delta="-5">−5</button>
-    </div>
-
-    <div class="field">
-     <label>LÝ DO</label>
-     <textarea
-      id="reason"
-      maxlength="500"
-      placeholder="Nhập lý do cộng hoặc trừ điểm..."
-     ></textarea>
-    </div>
-
-    <div class="mutation-actions" style="margin-top:12px">
-     <button id="applyPointBtn" class="primary" disabled>
-      Xác nhận cộng / trừ điểm
-     </button>
-    </div>
-   </div>
-  </section>
- `;
-}
-
-function wireMutationPanel(c,s,membershipId){
- const buttons=
-  $('content').querySelectorAll('.delta');
-
- const applyBtn=$('applyPointBtn');
-
- buttons.forEach(button=>{
-  button.onclick=()=>{
-   if(A.busy) return;
-
-   A.selectedDelta=Number(button.dataset.delta);
-
-   buttons.forEach(x=>x.classList.remove('selected'));
-   button.classList.add('selected');
-
-   applyBtn.disabled=false;
-
-   applyBtn.textContent=
-    A.selectedDelta>0
-     ?`Xác nhận +${A.selectedDelta} điểm`
-     :`Xác nhận ${A.selectedDelta} điểm`;
-  };
- });
-
- applyBtn.onclick=async()=>{
-  if(A.busy) return;
-
-  const delta=Number(A.selectedDelta);
-  const reason=$('reason').value.trim();
-
-  if(!Number.isInteger(delta)||delta===0){
-   return setStatus('Hãy chọn số điểm cộng hoặc trừ.','err');
-  }
-
-  if(!reason){
-   $('reason').focus();
-   return setStatus('Hãy nhập lý do cộng/trừ điểm.','err');
-  }
-
-  const confirmed=window.confirm(
-   `Xác nhận ${delta>0?'+':''}${delta} điểm?\n\nLý do: ${reason}`
-  );
-
-  if(!confirmed) return;
-
-  A.busy=true;
-  applyBtn.disabled=true;
-
-  setStatus('Đang ghi giao dịch điểm…');
-
-  try{
-   const mutationId=uuid();
-
-   const result=await rpc(
-    'v2_apply_point_mutation',
-    {
-     p_membership_id:Number(membershipId),
-     p_context_id:Number(c.context_id),
-     p_semester_id:Number(s.semester_id),
-     p_delta:delta,
-     p_reason:reason,
-     p_mutation_id:mutationId,
-     p_actor_user_id:A.session.user.id,
-     p_source_type:'MANUAL',
-     p_metadata:{
-      frontend:'B5.3',
-      action:'TEACHER_POINT_MUTATION'
-     }
-    }
-   );
-
-   const row=Array.isArray(result)?result[0]:result;
-
-   setStatus(
-    `Đã lưu giao dịch. Điểm mới: ${row?.new_points??'đã cập nhật'} · Band ${row?.new_band??'đã cập nhật'}`,
-    'ok'
-   );
-
-   A.selectedDelta=null;
-
-   await teacherStudentDetail(
-    currentContext(),
-    currentSemester(),
-    membershipId
-   );
-  }
-  catch(error){
-   console.error(error);
-   setStatus('Không thể ghi điểm: '+error.message,'err');
-  }
-  finally{
-   A.busy=false;
-  }
- };
-}
-
-function renderHistory(history,teacherMode=false){
- if(!history.length){
-  return `
-   <div class="empty">
-    Chưa có giao dịch điểm trong học kỳ/ngữ cảnh này.
-   </div>
-  `;
- }
-
- return history.map(item=>{
-  const delta=Number(item.delta||0);
-  const sign=delta>0?'+'+delta:String(delta);
-  const css=delta>0?'plus':'minus';
-
-  const time=item.created_at
-   ?new Date(item.created_at).toLocaleString('vi-VN')
-   :'';
-
-  const canUndo=
-   teacherMode
-   && !item.is_undo
-   && String(item.source||'').toUpperCase()!=='UNDO';
-
-  return `
-   <div class="tx">
-    <div class="${css}">
-     ${esc(sign)} điểm
-    </div>
-
-    <div>
-     <div>
-      <b>${esc(item.reason||'Không có lý do')}</b>
-     </div>
-
-     <div class="meta">
-      ${esc(time)}
-      ${item.is_undo?' · Hoàn tác':''}
-     </div>
-    </div>
-
-    <span class="badge">
-     ${esc(item.source||'SYSTEM')}
-    </span>
-
-    <div class="undo-wrap">
-     ${
-      canUndo
-       ?`
-        <button
-         class="ghost undoBtn"
-         data-transaction="${esc(item.transaction_id)}"
-        >
-         Hoàn tác
-        </button>
-       `
-       :''
-     }
-    </div>
-   </div>
-  `;
- }).join('');
-}
-
-function wireUndoButtons(){
- $('content')
-  .querySelectorAll('.undoBtn')
-  .forEach(button=>{
-   button.onclick=async()=>{
-    if(A.busy) return;
-
-    const transactionId=
-     Number(button.dataset.transaction);
-
-    if(!transactionId) return;
-
-    const confirmed=window.confirm(
-     'Hoàn tác giao dịch điểm này?\n\nHệ thống sẽ tạo một giao dịch đảo ngược, không xóa lịch sử cũ.'
+  const savedRole =
+    sessionStorage.getItem(
+      STATE_KEYS.role
     );
 
-    if(!confirmed) return;
+  /*
+    Nếu tài khoản đã đổi từ GV sang HS
+    hoặc ngược lại, không dùng route cũ.
+  */
 
-    A.busy=true;
-    button.disabled=true;
+  if(
+    savedRole &&
+    savedRole !== A.role
+  ){
+    clearNavigationState();
+  }
 
-    setStatus('Đang hoàn tác giao dịch…');
+
+  const savedPage =
+    sessionStorage.getItem(
+      STATE_KEYS.page
+    );
+
+  if(
+    savedPage &&
+    NAV[A.role].includes(savedPage)
+  ){
+    A.page = savedPage;
+  }
+  else{
+    A.page = NAV[A.role][0];
+  }
+
+
+  const savedContext =
+    sessionStorage.getItem(
+      STATE_KEYS.context
+    );
+
+  if(
+    savedContext &&
+    A.contexts.some(
+      x =>
+        String(x.context_id)
+        ===
+        String(savedContext)
+    )
+  ){
+    A.contextId = savedContext;
+  }
+
+
+  const savedSemester =
+    sessionStorage.getItem(
+      STATE_KEYS.semester
+    );
+
+  if(
+    savedSemester &&
+    A.semesters.some(
+      x =>
+        String(x.semester_id)
+        ===
+        String(savedSemester)
+    )
+  ){
+    A.semesterId = savedSemester;
+  }
+
+
+  const savedStudent =
+    sessionStorage.getItem(
+      STATE_KEYS.student
+    );
+
+  if(
+    A.role === 'teacher' &&
+    savedStudent
+  ){
+    A.selectedStudent =
+      savedStudent;
+  }
+  else{
+    A.selectedStudent =
+      null;
+  }
+
+
+  sessionStorage.setItem(
+    STATE_KEYS.role,
+    A.role
+  );
+}
+
+
+function clearNavigationState(){
+
+  Object.values(
+    STATE_KEYS
+  ).forEach(key=>{
+    sessionStorage.removeItem(key);
+  });
+
+}
+
+
+/* ==========================================================
+   HELPERS
+   ========================================================== */
+
+const esc =
+  value =>
+    String(value ?? '')
+      .replace(
+        /[&<>"']/g,
+        c => ({
+          '&':'&amp;',
+          '<':'&lt;',
+          '>':'&gt;',
+          '"':'&quot;',
+          "'":'&#39;'
+        })[c]
+      );
+
+
+function setStatus(
+  text,
+  type=''
+){
+
+  $('status').textContent =
+    text;
+
+  $('status').className =
+    'status'
+    +
+    (
+      type
+        ? ' ' + type
+        : ''
+    );
+
+}
+
+
+function setLoginStatus(
+  text,
+  type=''
+){
+
+  $('loginStatus').textContent =
+    text;
+
+  $('loginStatus').className =
+    'status'
+    +
+    (
+      type
+        ? ' ' + type
+        : ''
+    );
+
+}
+
+
+async function rpc(
+  name,
+  args={}
+){
+
+  const {
+    data,
+    error
+  } =
+    await db.rpc(
+      name,
+      args
+    );
+
+  if(error){
+    throw error;
+  }
+
+  return data;
+}
+
+
+function uuid(){
+
+  if(
+    window.crypto &&
+    typeof crypto.randomUUID === 'function'
+  ){
+    return crypto.randomUUID();
+  }
+
+  return (
+    'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
+  ).replace(
+    /[xy]/g,
+    c => {
+
+      const r =
+        Math.random() * 16 | 0;
+
+      const v =
+        c === 'x'
+          ? r
+          : (r & 0x3 | 0x8);
+
+      return v.toString(16);
+
+    }
+  );
+}
+
+
+/* ==========================================================
+   AUTH
+   ========================================================== */
+
+async function login(){
+
+  setLoginStatus(
+    'Đang chuyển tới Google…'
+  );
+
+  const {
+    error
+  } =
+    await db.auth.signInWithOAuth({
+
+      provider:'google',
+
+      options:{
+        redirectTo:
+          location.origin
+          +
+          location.pathname
+      }
+
+    });
+
+  if(error){
+
+    setLoginStatus(
+      'Không thể đăng nhập: '
+      +
+      error.message,
+      'err'
+    );
+
+  }
+}
+
+
+async function logout(){
+
+  clearNavigationState();
+
+  A.booted = false;
+
+  await db.auth.signOut();
+
+  location.reload();
+
+}
+
+
+/* ==========================================================
+   BOOTSTRAP NORMALIZATION
+   ========================================================== */
+
+function studentContexts(data){
+
+  const result = [];
+
+  (
+    data.memberships || []
+  ).forEach(
+    membership => {
+
+      (
+        membership.contexts || []
+      ).forEach(
+        context => {
+
+          result.push({
+
+            ...context,
+
+            membership_id:
+              membership.membership_id,
+
+            class_id:
+              membership.class_id,
+
+            class_name:
+              membership.class_name,
+
+            class_code:
+              membership.class_code,
+
+            school_year:
+              membership.school_year
+
+          });
+
+        }
+      );
+
+    }
+  );
+
+  return result;
+}
+
+
+function teacherContexts(data){
+
+  const result = [];
+
+  (
+    data.classes || []
+  ).forEach(
+    cls => {
+
+      (
+        cls.contexts || []
+      ).forEach(
+        context => {
+
+          result.push({
+
+            ...context,
+
+            class_id:
+              cls.class_id,
+
+            class_name:
+              cls.class_name,
+
+            class_code:
+              cls.class_code,
+
+            school_year:
+              cls.school_year
+
+          });
+
+        }
+      );
+
+    }
+  );
+
+  return result;
+}
+
+
+function contextLabel(context){
+
+  if(!context){
+    return 'Chưa có ngữ cảnh';
+  }
+
+  const type =
+    context.context_type
+    ===
+    'HOMEROOM'
+      ? 'Chủ nhiệm'
+      : 'Bộ môn';
+
+  return (
+    (context.class_name || 'Lớp')
+    +
+    ' · '
+    +
+    type
+    +
+    (
+      context.subject_name
+        ? ' · ' + context.subject_name
+        : ''
+    )
+  );
+}
+
+
+function semesterLabel(
+  semester
+){
+
+  return (
+    (semester?.semester_code || '')
+    +
+    (
+      semester?.school_year
+        ? ' · ' + semester.school_year
+        : ''
+    )
+  );
+
+}
+
+
+function currentContext(){
+
+  return (
+    A.contexts.find(
+      x =>
+        String(x.context_id)
+        ===
+        String(A.contextId)
+    )
+    ||
+    null
+  );
+
+}
+
+
+function currentSemester(){
+
+  return (
+    A.semesters.find(
+      x =>
+        String(x.semester_id)
+        ===
+        String(A.semesterId)
+    )
+    ||
+    null
+  );
+
+}
+
+
+/* ==========================================================
+   START APP
+   ========================================================== */
+
+async function start(
+  session,
+  force=false
+){
+
+  if(!session){
+
+    A.session = null;
+    A.booted = false;
+
+    $('appView')
+      .classList
+      .add('hide');
+
+    $('loginView')
+      .classList
+      .remove('hide');
+
+    $('loginBtn')
+      .classList
+      .remove('hide');
+
+    setLoginStatus(
+      'Chưa đăng nhập.'
+    );
+
+    return;
+  }
+
+
+  /*
+    NAV FIX:
+    Nếu app đã bootstrap rồi và Auth chỉ phát
+    lại SIGNED_IN/TOKEN_REFRESHED khi đổi tab,
+    không reset route.
+  */
+
+  if(
+    A.booted &&
+    !force &&
+    A.session?.user?.id
+    ===
+    session?.user?.id
+  ){
+
+    A.session = session;
+
+    return;
+  }
+
+
+  A.session =
+    session;
+
+
+  setLoginStatus(
+    'Đã xác thực Google. Đang tải dữ liệu…'
+  );
+
+
+  try{
+
+    const bootstrap =
+      await rpc(
+        'v4_bootstrap_lite'
+      );
+
+
+    const data =
+      bootstrap?.data
+      ||
+      {};
+
+
+    A.data =
+      data;
+
+
+    A.role =
+      String(
+        bootstrap?.identity?.role
+        ||
+        ''
+      ).toLowerCase();
+
+
+    if(
+      ![
+        'teacher',
+        'student'
+      ].includes(A.role)
+    ){
+      throw new Error(
+        'Tài khoản chưa có vai trò hợp lệ.'
+      );
+    }
+
+
+    A.contexts =
+      A.role === 'teacher'
+        ? teacherContexts(data)
+        : studentContexts(data);
+
+
+    A.semesters =
+      Array.isArray(
+        data.semesters
+      )
+        ? data.semesters
+        : [];
+
+
+    /*
+      Giá trị mặc định trước.
+      restoreState() sẽ phục hồi nếu có.
+    */
+
+    A.contextId =
+      A.contexts[0]
+        ?.context_id
+      ??
+      null;
+
+
+    const activeSemester =
+      A.semesters.find(
+        x => x.is_active
+      )
+      ||
+      A.semesters[0]
+      ||
+      null;
+
+
+    A.semesterId =
+      activeSemester
+        ?.semester_id
+      ??
+      null;
+
+
+    A.selectedDelta =
+      null;
+
+
+    restoreState();
+
+
+    A.booted =
+      true;
+
+
+    saveState();
+
+
+    renderShell();
+
+
+    await renderPage();
+
+  }
+  catch(error){
+
+    console.error(error);
+
+    A.booted =
+      false;
+
+    $('appView')
+      .classList
+      .add('hide');
+
+    $('loginView')
+      .classList
+      .remove('hide');
+
+    setLoginStatus(
+      'Không thể mở ứng dụng: '
+      +
+      error.message,
+      'err'
+    );
+
+  }
+
+}
+
+
+/* ==========================================================
+   SHELL
+   ========================================================== */
+
+function renderShell(){
+
+  $('loginView')
+    .classList
+    .add('hide');
+
+  $('appView')
+    .classList
+    .remove('hide');
+
+
+  $('title').textContent =
+    A.role === 'teacher'
+      ? 'QUẢN LÍ HỌC SINH'
+      : 'CỔNG HỌC SINH';
+
+
+  $('mail').textContent =
+    A.session
+      ?.user
+      ?.email
+    ||
+    '';
+
+
+  renderNavigation();
+
+  renderContextSelector();
+
+  renderSemesterSelector();
+
+}
+
+
+function renderNavigation(){
+
+  $('side').innerHTML =
+    NAV[A.role]
+      .map(
+        item => `
+
+          <button
+            class="nav
+            ${
+              item === A.page
+                ? 'active'
+                : ''
+            }"
+            data-page="${esc(item)}"
+          >
+            ${esc(item)}
+          </button>
+
+        `
+      )
+      .join('');
+
+
+  $('side')
+    .querySelectorAll('.nav')
+    .forEach(
+      button => {
+
+        button.onclick =
+          async () => {
+
+            if(A.busy){
+              return;
+            }
+
+            A.page =
+              button.dataset.page;
+
+            A.selectedStudent =
+              null;
+
+            A.selectedDelta =
+              null;
+
+
+            saveState();
+
+
+            renderNavigation();
+
+
+            await renderPage();
+
+          };
+
+      }
+    );
+
+}
+
+
+function renderContextSelector(){
+
+  const select =
+    $('context');
+
+
+  if(!A.contexts.length){
+
+    select.disabled =
+      true;
+
+    select.innerHTML =
+      '<option value="">Chưa có ngữ cảnh</option>';
+
+    return;
+  }
+
+
+  select.disabled =
+    false;
+
+
+  select.innerHTML =
+    A.contexts
+      .map(
+        context => `
+
+          <option
+            value="${esc(context.context_id)}"
+            ${
+              String(context.context_id)
+              ===
+              String(A.contextId)
+                ? 'selected'
+                : ''
+            }
+          >
+            ${esc(contextLabel(context))}
+          </option>
+
+        `
+      )
+      .join('');
+
+
+  select.onchange =
+    async event => {
+
+      if(A.busy){
+        return;
+      }
+
+      A.contextId =
+        event.target.value
+        ||
+        null;
+
+      A.selectedStudent =
+        null;
+
+      A.selectedDelta =
+        null;
+
+
+      saveState();
+
+
+      await renderPage();
+
+    };
+
+}
+
+
+function renderSemesterSelector(){
+
+  const select =
+    $('semester');
+
+
+  if(!A.semesters.length){
+
+    select.disabled =
+      true;
+
+    select.innerHTML =
+      '<option value="">Chưa có học kỳ</option>';
+
+    return;
+  }
+
+
+  select.disabled =
+    false;
+
+
+  select.innerHTML =
+    A.semesters
+      .map(
+        semester => `
+
+          <option
+            value="${esc(semester.semester_id)}"
+            ${
+              String(semester.semester_id)
+              ===
+              String(A.semesterId)
+                ? 'selected'
+                : ''
+            }
+          >
+            ${esc(semesterLabel(semester))}
+          </option>
+
+        `
+      )
+      .join('');
+
+
+  select.onchange =
+    async event => {
+
+      if(A.busy){
+        return;
+      }
+
+      A.semesterId =
+        event.target.value
+        ||
+        null;
+
+      A.selectedStudent =
+        null;
+
+      A.selectedDelta =
+        null;
+
+
+      saveState();
+
+
+      await renderPage();
+
+    };
+
+}
+
+
+/* ==========================================================
+   ROUTER
+   ========================================================== */
+
+async function renderPage(){
+
+  const context =
+    currentContext();
+
+  const semester =
+    currentSemester();
+
+
+  if(
+    !context
+    ||
+    !semester
+  ){
+
+    $('content').innerHTML =
+      `
+        <section class="card empty">
+          Chưa có lớp/ngữ cảnh hoặc học kỳ khả dụng.
+        </section>
+      `;
+
+    setStatus(
+      'Bootstrap hoàn tất.',
+      'ok'
+    );
+
+    return;
+  }
+
+
+  setStatus(
+    'Đang tải '
+    +
+    A.page
+    +
+    '…'
+  );
+
+
+  try{
+
+    if(
+      A.role
+      ===
+      'teacher'
+    ){
+
+      await teacherPage(
+        context,
+        semester
+      );
+
+    }
+    else{
+
+      await studentPage(
+        context,
+        semester
+      );
+
+    }
+
+
+    setStatus(
+      'Đã tải '
+      +
+      A.page
+      +
+      ' · '
+      +
+      contextLabel(context)
+      +
+      ' · '
+      +
+      semesterLabel(semester),
+      'ok'
+    );
+
+  }
+  catch(error){
+
+    console.error(error);
+
+    $('content').innerHTML =
+      `
+        <section class="card empty">
+          Không thể tải dữ liệu mục này.
+        </section>
+      `;
+
+    setStatus(
+      error.message,
+      'err'
+    );
+
+  }
+
+}
+
+
+/* ==========================================================
+   TEACHER ROSTER
+   ========================================================== */
+
+async function teacherRoster(
+  context,
+  semester
+){
+
+  const result =
+    await rpc(
+      'v4_teacher_context_students',
+      {
+
+        p_context_id:
+          context.context_id,
+
+        p_semester_id:
+          semester.semester_id
+
+      }
+    );
+
+
+  return Array.isArray(result)
+    ? result
+    : [];
+
+}
+
+
+function renderRows(
+  students
+){
+
+  if(!students.length){
+
+    return `
+      <div class="empty">
+        Chưa có học sinh.
+      </div>
+    `;
+
+  }
+
+
+  return students
+    .map(
+      student => `
+
+        <div class="row">
+
+          <button
+            class="rowbtn"
+            data-membership="${esc(student.membership_id)}"
+          >
+
+            <div class="name">
+              ${esc(
+                student.full_name
+                ||
+                student.student_name
+                ||
+                'Học sinh'
+              )}
+            </div>
+
+            <div class="meta">
+              ${esc(student.email || '')}
+            </div>
+
+            <div class="meta">
+
+              ${
+                student.points !== undefined
+                  ? esc(student.points)
+                    + ' điểm'
+                  : ''
+              }
+
+              ${
+                student.band !== undefined
+                  ? ' · Band '
+                    + esc(student.band)
+                  : ''
+              }
+
+            </div>
+
+          </button>
+
+        </div>
+
+      `
+    )
+    .join('');
+
+}
+
+
+/* ==========================================================
+   TEACHER PAGE
+   ========================================================== */
+
+async function teacherPage(
+  context,
+  semester
+){
+
+  if(
+    A.selectedStudent
+  ){
+
+    await teacherStudentDetail(
+      context,
+      semester,
+      A.selectedStudent
+    );
+
+    return;
+  }
+
+
+  if(
+    [
+      'Tổng quan',
+      'Lớp học',
+      'Học sinh',
+      'Điểm rèn luyện'
+    ].includes(A.page)
+  ){
+
+    const students =
+      await teacherRoster(
+        context,
+        semester
+      );
+
+
+    $('content').innerHTML =
+      `
+
+        <section class="card">
+
+          <h2>
+            ${esc(A.page)}
+          </h2>
+
+          <p class="meta">
+            ${esc(contextLabel(context))}
+            ·
+            ${esc(semesterLabel(semester))}
+          </p>
+
+          <div class="grid">
+
+            <div class="metric">
+              <small>Học sinh</small>
+              <b>${students.length}</b>
+            </div>
+
+            <div class="metric">
+              <small>Loại lớp</small>
+              <b style="font-size:17px">
+                ${
+                  context.context_type
+                  ===
+                  'HOMEROOM'
+                    ? 'Lớp chủ nhiệm'
+                    : 'Lớp bộ môn'
+                }
+              </b>
+            </div>
+
+            <div class="metric">
+              <small>Học kỳ</small>
+              <b>
+                ${esc(semester.semester_code)}
+              </b>
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <section class="card">
+
+          <h3>
+
+            ${
+              A.page
+              ===
+              'Điểm rèn luyện'
+                ? 'Chọn học sinh để cộng/trừ điểm'
+                : 'Học sinh trong lớp'
+            }
+
+          </h3>
+
+          ${renderRows(students)}
+
+        </section>
+
+      `;
+
+
+    $('content')
+      .querySelectorAll(
+        '.rowbtn'
+      )
+      .forEach(
+        button => {
+
+          button.onclick =
+            async () => {
+
+              A.selectedStudent =
+                button.dataset.membership;
+
+              A.selectedDelta =
+                null;
+
+
+              saveState();
+
+
+              await renderPage();
+
+            };
+
+        }
+      );
+
+
+    return;
+  }
+
+
+  $('content').innerHTML =
+    `
+
+      <section class="card">
+
+        <h2>
+          ${esc(A.page)}
+        </h2>
+
+        <div class="empty">
+          Module này chưa phát triển trong B5.3.1.
+        </div>
+
+      </section>
+
+    `;
+
+}
+
+
+/* ==========================================================
+   TEACHER DETAIL
+   ========================================================== */
+
+async function teacherStudentDetail(
+  context,
+  semester,
+  membershipId
+){
+
+  const detail =
+    await rpc(
+      'v4_teacher_student_context_detail',
+      {
+
+        p_membership_id:
+          Number(membershipId),
+
+        p_context_id:
+          context.context_id,
+
+        p_semester_id:
+          semester.semester_id
+
+      }
+    );
+
+
+  let history =
+    await rpc(
+      'v4_teacher_point_history',
+      {
+
+        p_membership_id:
+          Number(membershipId),
+
+        p_context_id:
+          context.context_id,
+
+        p_semester_id:
+          semester.semester_id,
+
+        p_limit:
+          100
+
+      }
+    );
+
+
+  history =
+    Array.isArray(history)
+      ? history
+      : [];
+
+
+  $('content').innerHTML =
+    `
+
+      <button
+        id="backBtn"
+        class="back"
+      >
+        ← Quay lại danh sách học sinh
+      </button>
+
+
+      <section class="card">
+
+        <h2>
+          ${esc(
+            detail?.full_name
+            ||
+            detail?.student_name
+            ||
+            'Học sinh'
+          )}
+        </h2>
+
+        <p class="meta">
+
+          ${esc(detail?.email || '')}
+
+          ·
+
+          ${esc(contextLabel(context))}
+
+          ·
+
+          ${esc(semesterLabel(semester))}
+
+        </p>
+
+
+        <div class="grid">
+
+          <div class="metric">
+
+            <small>
+              Điểm hiện tại
+            </small>
+
+            <b>
+              ${esc(detail?.points ?? 0)}
+            </b>
+
+          </div>
+
+
+          <div class="metric">
+
+            <small>
+              Band
+            </small>
+
+            <b>
+              ${esc(detail?.band ?? '—')}
+            </b>
+
+          </div>
+
+
+          <div class="metric">
+
+            <small>
+              Chức vụ
+            </small>
+
+            <b style="font-size:17px">
+
+              ${esc(
+                detail?.role?.display_name
+                ||
+                'Chưa có'
+              )}
+
+            </b>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <section class="card">
+
+        <h3>
+          Nghề nghiệp
+        </h3>
+
+        <p>
+
+          ${esc(
+            detail?.career?.display_name
+            ||
+            'Chưa chọn'
+          )}
+
+        </p>
+
+      </section>
+
+
+      ${
+        A.page
+        ===
+        'Điểm rèn luyện'
+          ? renderMutationPanel()
+          : ''
+      }
+
+
+      <section class="card">
+
+        <h3>
+          Lịch sử điểm
+        </h3>
+
+        ${renderHistory(history,true)}
+
+      </section>
+
+    `;
+
+
+  $('backBtn').onclick =
+    async () => {
+
+      if(A.busy){
+        return;
+      }
+
+      A.selectedStudent =
+        null;
+
+      A.selectedDelta =
+        null;
+
+
+      saveState();
+
+
+      await renderPage();
+
+    };
+
+
+  if(
+    A.page
+    ===
+    'Điểm rèn luyện'
+  ){
+
+    wireMutationPanel(
+      context,
+      semester,
+      membershipId
+    );
+
+  }
+
+
+  wireUndoButtons();
+
+}
+
+
+/* ==========================================================
+   MUTATION PANEL
+   ========================================================== */
+
+function renderMutationPanel(){
+
+  return `
+
+    <section class="card">
+
+      <h3>
+        Cộng / trừ điểm rèn luyện
+      </h3>
+
+
+      <div class="mutation-box">
+
+        <div class="notice">
+
+          Điểm được ghi vào lịch sử giao dịch
+          của đúng học sinh, đúng lớp/ngữ cảnh
+          và đúng học kỳ hiện tại.
+
+        </div>
+
+
+        <div class="delta-box">
+
+          <button class="delta plus-btn" data-delta="1">+1</button>
+          <button class="delta plus-btn" data-delta="2">+2</button>
+          <button class="delta plus-btn" data-delta="3">+3</button>
+          <button class="delta plus-btn" data-delta="4">+4</button>
+          <button class="delta plus-btn" data-delta="5">+5</button>
+
+          <button class="delta minus-btn" data-delta="-1">−1</button>
+          <button class="delta minus-btn" data-delta="-2">−2</button>
+          <button class="delta minus-btn" data-delta="-3">−3</button>
+          <button class="delta minus-btn" data-delta="-4">−4</button>
+          <button class="delta minus-btn" data-delta="-5">−5</button>
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            LÝ DO
+          </label>
+
+          <textarea
+            id="reason"
+            maxlength="500"
+            placeholder="Nhập lý do cộng hoặc trừ điểm..."
+          ></textarea>
+
+        </div>
+
+
+        <div
+          class="mutation-actions"
+          style="margin-top:12px"
+        >
+
+          <button
+            id="applyPointBtn"
+            class="primary"
+            disabled
+          >
+            Xác nhận cộng / trừ điểm
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  `;
+
+}
+
+
+function wireMutationPanel(
+  context,
+  semester,
+  membershipId
+){
+
+  const buttons =
+    $('content')
+      .querySelectorAll(
+        '.delta'
+      );
+
+
+  const applyBtn =
+    $('applyPointBtn');
+
+
+  buttons.forEach(
+    button => {
+
+      button.onclick =
+        () => {
+
+          if(A.busy){
+            return;
+          }
+
+          A.selectedDelta =
+            Number(
+              button.dataset.delta
+            );
+
+
+          buttons.forEach(
+            x =>
+              x.classList.remove(
+                'selected'
+              )
+          );
+
+
+          button.classList.add(
+            'selected'
+          );
+
+
+          applyBtn.disabled =
+            false;
+
+
+          applyBtn.textContent =
+            A.selectedDelta > 0
+              ? `Xác nhận +${A.selectedDelta} điểm`
+              : `Xác nhận ${A.selectedDelta} điểm`;
+
+        };
+
+    }
+  );
+
+
+  applyBtn.onclick =
+    async () => {
+
+      if(A.busy){
+        return;
+      }
+
+
+      const delta =
+        Number(
+          A.selectedDelta
+        );
+
+
+      const reason =
+        $('reason')
+          .value
+          .trim();
+
+
+      if(
+        !Number.isInteger(delta)
+        ||
+        delta === 0
+      ){
+
+        setStatus(
+          'Hãy chọn số điểm cộng hoặc trừ.',
+          'err'
+        );
+
+        return;
+      }
+
+
+      if(!reason){
+
+        $('reason').focus();
+
+        setStatus(
+          'Hãy nhập lý do cộng/trừ điểm.',
+          'err'
+        );
+
+        return;
+      }
+
+
+      const confirmed =
+        window.confirm(
+
+          `Xác nhận ${
+            delta > 0
+              ? '+'
+              : ''
+          }${delta} điểm?\n\nLý do: ${reason}`
+
+        );
+
+
+      if(!confirmed){
+        return;
+      }
+
+
+      A.busy =
+        true;
+
+
+      applyBtn.disabled =
+        true;
+
+
+      setStatus(
+        'Đang ghi giao dịch điểm…'
+      );
+
+
+      try{
+
+        const mutationId =
+          uuid();
+
+
+        const result =
+          await rpc(
+            'v2_apply_point_mutation',
+            {
+
+              p_membership_id:
+                Number(membershipId),
+
+              p_context_id:
+                Number(context.context_id),
+
+              p_semester_id:
+                Number(semester.semester_id),
+
+              p_delta:
+                delta,
+
+              p_reason:
+                reason,
+
+              p_mutation_id:
+                mutationId,
+
+              p_actor_user_id:
+                A.session.user.id,
+
+              p_source_type:
+                'MANUAL',
+
+              p_metadata:{
+                frontend:
+                  'B5.3.1',
+
+                action:
+                  'TEACHER_POINT_MUTATION'
+              }
+
+            }
+          );
+
+
+        const row =
+          Array.isArray(result)
+            ? result[0]
+            : result;
+
+
+        setStatus(
+          `Đã lưu giao dịch. Điểm mới: ${
+            row?.new_points
+            ??
+            'đã cập nhật'
+          } · Band ${
+            row?.new_band
+            ??
+            'đã cập nhật'
+          }`,
+          'ok'
+        );
+
+
+        A.selectedDelta =
+          null;
+
+
+        saveState();
+
+
+        await teacherStudentDetail(
+          currentContext(),
+          currentSemester(),
+          membershipId
+        );
+
+      }
+      catch(error){
+
+        console.error(error);
+
+        setStatus(
+          'Không thể ghi điểm: '
+          +
+          error.message,
+          'err'
+        );
+
+      }
+      finally{
+
+        A.busy =
+          false;
+
+      }
+
+    };
+
+}
+
+
+/* ==========================================================
+   HISTORY
+   ========================================================== */
+
+function renderHistory(
+  history,
+  teacherMode=false
+){
+
+  if(!history.length){
+
+    return `
+
+      <div class="empty">
+
+        Chưa có giao dịch điểm
+        trong học kỳ/ngữ cảnh này.
+
+      </div>
+
+    `;
+
+  }
+
+
+  return history
+    .map(
+      item => {
+
+        const delta =
+          Number(
+            item.delta || 0
+          );
+
+
+        const sign =
+          delta > 0
+            ? '+' + delta
+            : String(delta);
+
+
+        const css =
+          delta > 0
+            ? 'plus'
+            : 'minus';
+
+
+        const time =
+          item.created_at
+            ? new Date(
+                item.created_at
+              ).toLocaleString(
+                'vi-VN'
+              )
+            : '';
+
+
+        const canUndo =
+          teacherMode
+          &&
+          !item.is_undo
+          &&
+          String(
+            item.source || ''
+          ).toUpperCase()
+          !==
+          'UNDO';
+
+
+        return `
+
+          <div class="tx">
+
+            <div class="${css}">
+              ${esc(sign)} điểm
+            </div>
+
+
+            <div>
+
+              <div>
+                <b>
+                  ${esc(
+                    item.reason
+                    ||
+                    'Không có lý do'
+                  )}
+                </b>
+              </div>
+
+              <div class="meta">
+
+                ${esc(time)}
+
+                ${
+                  item.is_undo
+                    ? ' · Hoàn tác'
+                    : ''
+                }
+
+              </div>
+
+            </div>
+
+
+            <span class="badge">
+
+              ${esc(
+                item.source
+                ||
+                'SYSTEM'
+              )}
+
+            </span>
+
+
+            <div class="undo-wrap">
+
+              ${
+                canUndo
+                  ?`
+
+                    <button
+                      class="ghost undoBtn"
+                      data-transaction="${esc(item.transaction_id)}"
+                    >
+                      Hoàn tác
+                    </button>
+
+                  `
+                  :''
+              }
+
+            </div>
+
+          </div>
+
+        `;
+
+      }
+    )
+    .join('');
+
+}
+
+
+/* ==========================================================
+   UNDO
+   ========================================================== */
+
+function wireUndoButtons(){
+
+  $('content')
+    .querySelectorAll(
+      '.undoBtn'
+    )
+    .forEach(
+      button => {
+
+        button.onclick =
+          async () => {
+
+            if(A.busy){
+              return;
+            }
+
+
+            const transactionId =
+              Number(
+                button.dataset.transaction
+              );
+
+
+            if(!transactionId){
+              return;
+            }
+
+
+            const confirmed =
+              window.confirm(
+
+                'Hoàn tác giao dịch điểm này?\n\n'
+                +
+                'Hệ thống sẽ tạo một giao dịch đảo ngược, '
+                +
+                'không xóa lịch sử cũ.'
+
+              );
+
+
+            if(!confirmed){
+              return;
+            }
+
+
+            A.busy =
+              true;
+
+
+            button.disabled =
+              true;
+
+
+            setStatus(
+              'Đang hoàn tác giao dịch…'
+            );
+
+
+            try{
+
+              const result =
+                await rpc(
+                  'v2_undo_point_transaction',
+                  {
+
+                    p_transaction_id:
+                      transactionId,
+
+                    p_mutation_id:
+                      uuid(),
+
+                    p_actor_user_id:
+                      A.session.user.id
+
+                  }
+                );
+
+
+              const row =
+                Array.isArray(result)
+                  ? result[0]
+                  : result;
+
+
+              setStatus(
+                `Đã hoàn tác. Điểm mới: ${
+                  row?.new_points
+                  ??
+                  'đã cập nhật'
+                } · Band ${
+                  row?.new_band
+                  ??
+                  'đã cập nhật'
+                }`,
+                'ok'
+              );
+
+
+              saveState();
+
+
+              await teacherStudentDetail(
+                currentContext(),
+                currentSemester(),
+                A.selectedStudent
+              );
+
+            }
+            catch(error){
+
+              console.error(error);
+
+              setStatus(
+                'Không thể hoàn tác: '
+                +
+                error.message,
+                'err'
+              );
+
+            }
+            finally{
+
+              A.busy =
+                false;
+
+            }
+
+          };
+
+      }
+    );
+
+}
+
+
+/* ==========================================================
+   STUDENT
+   ========================================================== */
+
+async function studentSummary(
+  context,
+  semester
+){
+
+  return await rpc(
+    'v4_student_context_summary',
+    {
+
+      p_membership_id:
+        context.membership_id,
+
+      p_context_id:
+        context.context_id,
+
+      p_semester_id:
+        semester.semester_id
+
+    }
+  );
+
+}
+
+
+async function studentPage(
+  context,
+  semester
+){
+
+  if(!context.membership_id){
+
+    throw new Error(
+      'Bootstrap thiếu membership.'
+    );
+
+  }
+
+
+  const summary =
+    await studentSummary(
+      context,
+      semester
+    );
+
+
+  if(
+    A.page
+    ===
+    'Điểm'
+  ){
+
+    let history =
+      await rpc(
+        'v4_student_point_history',
+        {
+
+          p_membership_id:
+            context.membership_id,
+
+          p_context_id:
+            context.context_id,
+
+          p_semester_id:
+            semester.semester_id,
+
+          p_limit:
+            100
+
+        }
+      );
+
+
+    history =
+      Array.isArray(history)
+        ? history
+        : [];
+
+
+    $('content').innerHTML =
+      `
+
+        <section class="card">
+
+          <h2>
+            Điểm
+          </h2>
+
+          <p class="meta">
+
+            ${esc(contextLabel(context))}
+
+            ·
+
+            ${esc(semesterLabel(semester))}
+
+          </p>
+
+
+          <div class="grid">
+
+            <div class="metric">
+
+              <small>
+                Điểm hiện tại
+              </small>
+
+              <b>
+                ${esc(summary.points ?? 0)}
+              </b>
+
+            </div>
+
+
+            <div class="metric">
+
+              <small>
+                Band
+              </small>
+
+              <b>
+                ${esc(summary.band ?? '—')}
+              </b>
+
+            </div>
+
+
+            <div class="metric">
+
+              <small>
+                Học kỳ
+              </small>
+
+              <b>
+                ${esc(semester.semester_code)}
+              </b>
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <section class="card">
+
+          <h3>
+            Lịch sử điểm
+          </h3>
+
+          ${renderHistory(history,false)}
+
+        </section>
+
+      `;
+
+
+    return;
+  }
+
+
+  if(
+    [
+      'Trang chủ',
+      'Hồ sơ',
+      'Chức vụ',
+      'Nghề nghiệp'
+    ].includes(A.page)
+  ){
+
+    $('content').innerHTML =
+      `
+
+        <section class="card">
+
+          <h2>
+            ${esc(A.page)}
+          </h2>
+
+          <p>
+            <b>
+              ${esc(
+                summary.student_name
+                ||
+                'Học sinh'
+              )}
+            </b>
+          </p>
+
+          <p class="meta">
+
+            ${esc(contextLabel(context))}
+
+            ·
+
+            ${esc(semesterLabel(semester))}
+
+          </p>
+
+
+          <div class="grid">
+
+            <div class="metric">
+
+              <small>
+                Điểm hiện tại
+              </small>
+
+              <b>
+                ${esc(summary.points ?? 0)}
+              </b>
+
+            </div>
+
+
+            <div class="metric">
+
+              <small>
+                Band
+              </small>
+
+              <b>
+                ${esc(summary.band ?? '—')}
+              </b>
+
+            </div>
+
+
+            <div class="metric">
+
+              <small>
+                Chức vụ
+              </small>
+
+              <b style="font-size:17px">
+
+                ${esc(
+                  summary.role?.display_name
+                  ||
+                  'Chưa có'
+                )}
+
+              </b>
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <section class="card">
+
+          <h3>
+            Nghề nghiệp
+          </h3>
+
+          <p>
+            ${esc(
+              summary.career?.display_name
+              ||
+              'Chưa chọn'
+            )}
+          </p>
+
+        </section>
+
+      `;
+
+
+    return;
+  }
+
+
+  $('content').innerHTML =
+    `
+
+      <section class="card">
+
+        <h2>
+          ${esc(A.page)}
+        </h2>
+
+        <div class="empty">
+          Module này chưa phát triển trong B5.3.1.
+        </div>
+
+      </section>
+
+    `;
+
+}
+
+
+/* ==========================================================
+   TAB/VISIBILITY FIX
+   ========================================================== */
+
+/*
+  Không bootstrap lại chỉ vì người dùng chuyển
+  sang tab trình duyệt khác rồi quay lại.
+
+  Khi tab trở lại:
+  - giữ page
+  - giữ context
+  - giữ semester
+  - giữ selectedStudent
+  - chỉ render lại giao diện hiện tại nếu cần.
+*/
+
+document.addEventListener(
+  'visibilitychange',
+  async () => {
+
+    if(
+      document.visibilityState
+      !==
+      'visible'
+    ){
+      return;
+    }
+
+
+    if(
+      !A.booted
+      ||
+      !A.session
+      ||
+      A.busy
+    ){
+      return;
+    }
+
 
     try{
-     const result=await rpc(
-      'v2_undo_point_transaction',
-      {
-       p_transaction_id:transactionId,
-       p_mutation_id:uuid(),
-       p_actor_user_id:A.session.user.id
-      }
-     );
 
-     const row=Array.isArray(result)?result[0]:result;
+      saveState();
 
-     setStatus(
-      `Đã hoàn tác. Điểm mới: ${row?.new_points??'đã cập nhật'} · Band ${row?.new_band??'đã cập nhật'}`,
-      'ok'
-     );
+      renderShell();
 
-     await teacherStudentDetail(
-      currentContext(),
-      currentSemester(),
-      A.selectedStudent
-     );
+      await renderPage();
+
     }
     catch(error){
-     console.error(error);
-     setStatus('Không thể hoàn tác: '+error.message,'err');
-    }
-    finally{
-     A.busy=false;
-    }
-   };
-  });
-}
 
-async function studentSummary(c,s){
- return await rpc(
-  'v4_student_context_summary',
-  {
-   p_membership_id:c.membership_id,
-   p_context_id:c.context_id,
-   p_semester_id:s.semester_id
+      console.error(
+        'Visibility restore:',
+        error
+      );
+
+    }
+
   }
- );
-}
+);
 
-async function studentPage(c,s){
- if(!c.membership_id){
-  throw new Error('Bootstrap thiếu membership.');
- }
 
- const summary=await studentSummary(c,s);
+/* ==========================================================
+   EVENTS
+   ========================================================== */
 
- if(A.page==='Điểm'){
-  let history=await rpc(
-   'v4_student_point_history',
-   {
-    p_membership_id:c.membership_id,
-    p_context_id:c.context_id,
-    p_semester_id:s.semester_id,
-    p_limit:100
-   }
-  );
+$('loginBtn').onclick =
+  login;
 
-  history=Array.isArray(history)?history:[];
 
-  $('content').innerHTML=`
-   <section class="card">
-    <h2>Điểm</h2>
+$('logoutBtn').onclick =
+  logout;
 
-    <p class="meta">
-     ${esc(contextLabel(c))} · ${esc(semesterLabel(s))}
-    </p>
 
-    <div class="grid">
-     <div class="metric">
-      <small>Điểm hiện tại</small>
-      <b>${esc(summary.points??0)}</b>
-     </div>
+/*
+  Quan trọng:
+  Không gọi start() lại cho mọi Auth event.
 
-     <div class="metric">
-      <small>Band</small>
-      <b>${esc(summary.band??'—')}</b>
-     </div>
+  SIGNED_IN:
+    chỉ bootstrap nếu app chưa boot.
 
-     <div class="metric">
-      <small>Học kỳ</small>
-      <b>${esc(s.semester_code)}</b>
-     </div>
-    </div>
-   </section>
+  SIGNED_OUT:
+    về login.
 
-   <section class="card">
-    <h3>Lịch sử điểm</h3>
-    ${renderHistory(history,false)}
-   </section>
-  `;
+  TOKEN_REFRESHED / USER_UPDATED:
+    chỉ cập nhật session,
+    không reset navigation.
+*/
 
-  return;
- }
+db.auth.onAuthStateChange(
+  async (
+    event,
+    session
+  ) => {
 
- if(['Trang chủ','Hồ sơ','Chức vụ','Nghề nghiệp'].includes(A.page)){
-  $('content').innerHTML=`
-   <section class="card">
-    <h2>${esc(A.page)}</h2>
+    if(
+      event
+      ===
+      'SIGNED_OUT'
+    ){
 
-    <p>
-     <b>${esc(summary.student_name||'Học sinh')}</b>
-    </p>
+      A.booted =
+        false;
 
-    <p class="meta">
-     ${esc(contextLabel(c))} · ${esc(semesterLabel(s))}
-    </p>
+      A.session =
+        null;
 
-    <div class="grid">
-     <div class="metric">
-      <small>Điểm hiện tại</small>
-      <b>${esc(summary.points??0)}</b>
-     </div>
+      clearNavigationState();
 
-     <div class="metric">
-      <small>Band</small>
-      <b>${esc(summary.band??'—')}</b>
-     </div>
+      $('appView')
+        .classList
+        .add('hide');
 
-     <div class="metric">
-      <small>Chức vụ</small>
-      <b style="font-size:17px">
-       ${esc(summary.role?.display_name||'Chưa có')}
-      </b>
-     </div>
-    </div>
-   </section>
+      $('loginView')
+        .classList
+        .remove('hide');
 
-   <section class="card">
-    <h3>Nghề nghiệp</h3>
-    <p>${esc(summary.career?.display_name||'Chưa chọn')}</p>
-   </section>
-  `;
+      $('loginBtn')
+        .classList
+        .remove('hide');
 
-  return;
- }
+      setLoginStatus(
+        'Đã đăng xuất.'
+      );
 
- $('content').innerHTML=`
-  <section class="card">
-   <h2>${esc(A.page)}</h2>
-   <div class="empty">
-    Module này chưa phát triển trong B5.3.
-   </div>
-  </section>
- `;
-}
+      return;
+    }
 
-$('loginBtn').onclick=login;
-$('logoutBtn').onclick=logout;
 
-db.auth.onAuthStateChange((event,session)=>{
- if(event==='SIGNED_IN'||event==='SIGNED_OUT'){
-  start(session);
- }
-});
+    if(
+      event
+      ===
+      'SIGNED_IN'
+    ){
+
+      if(!A.booted){
+
+        await start(
+          session
+        );
+
+      }
+      else{
+
+        A.session =
+          session;
+
+      }
+
+      return;
+    }
+
+
+    if(
+      event
+      ===
+      'TOKEN_REFRESHED'
+      ||
+      event
+      ===
+      'USER_UPDATED'
+    ){
+
+      A.session =
+        session;
+
+    }
+
+  }
+);
+
+
+/* ==========================================================
+   INITIAL BOOT
+   ========================================================== */
 
 (async function init(){
- const {data,error}=await db.auth.getSession();
 
- if(error){
-  setLoginStatus(
-   'Không thể kiểm tra phiên: '+error.message,
-   'err'
+  const {
+    data,
+    error
+  } =
+    await db.auth.getSession();
+
+
+  if(error){
+
+    setLoginStatus(
+      'Không thể kiểm tra phiên: '
+      +
+      error.message,
+      'err'
+    );
+
+    $('loginBtn')
+      .classList
+      .remove('hide');
+
+    return;
+  }
+
+
+  await start(
+    data.session
   );
 
-  $('loginBtn').classList.remove('hide');
-  return;
- }
-
- await start(data.session);
 })();
+
 </script>
 
 </body>
